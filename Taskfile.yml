@@ -1,0 +1,42 @@
+# https://taskfile.dev
+
+version: 3
+
+vars:
+  py_version: 3.10
+  env_name: mnist
+  conda_command: run -n {{ .env_name }} --live-stream
+  cmake_dirname: cmake-build
+  app_name: mnist
+
+tasks:
+  all:
+    desc: Run all tasks to setup conda environment, train the model, build and run the app
+    cmds:
+      - task: conda
+      - task: train
+      - task: build
+      - task: run
+
+  build:
+    desc: Build C project
+    cmd: clang main.c -o ./data/{{ .app_name }}
+
+  conda:
+    desc: Setup conda environment
+    cmds:
+      - conda create -n {{ .env_name }} python={{ .py_version }} -y
+      - conda {{ .conda_command }} python -m pip install -r requirements.txt
+
+  default:
+    desc: List all tasks
+    cmd: task --list-all
+
+  run:
+    desc: Run executable
+    cmd: ./data/{{ .app_name }}
+
+  train:
+    desc: Train MNIST model and convert to some file that can be read in the C program
+    cmds:
+      - conda {{ .conda_command }} python train.py
