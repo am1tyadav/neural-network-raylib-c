@@ -1,5 +1,6 @@
 import keras
 import numpy as np
+from pprint import pprint
 
 
 def train():
@@ -12,8 +13,8 @@ def train():
         [
             keras.layers.Flatten(input_shape=(28, 28), name="model_input"),
             keras.layers.Dense(64, activation="relu", name="export_dense_1"),
-            keras.layers.Dense(64, activation="relu", name="export_dense_2"),
-            keras.layers.Dense(10, activation="softmax", name="export_dense_3"),
+            keras.layers.Dense(10, activation="linear", name="export_dense_2"),
+            keras.layers.Softmax(name="model_output"),
         ]
     )
 
@@ -24,6 +25,16 @@ def train():
     _ = model.fit(
         x_train, y_train, validation_data=(x_test, y_test), batch_size=64, epochs=5
     )
+
+    model_without_activation = keras.models.Model(
+        inputs=model.layers[0].input, outputs=model.layers[-2].output
+    )
+
+    prediction = model_without_activation.predict(np.zeros((1, 28, 28)))
+
+    print("Expect the following prediction when running the model from C:")
+    pprint(prediction[0].tolist())
+    print("Prediction:", np.argmax(prediction))
 
     model.save("./data/model.keras")
 

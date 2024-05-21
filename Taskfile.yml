@@ -7,7 +7,7 @@ vars:
   env_name: mnist
   conda_command: run -n {{ .env_name }} --live-stream
   cmake_dirname: cmake-build
-  app_name: mnist
+  app_name: mnist_example
 
 tasks:
   all:
@@ -20,7 +20,9 @@ tasks:
 
   build:
     desc: Build C project
-    cmd: clang main.c -o ./data/{{ .app_name }}
+    cmds:
+      - cmake -B {{ .cmake_dirname }} -S .
+      - cmake --build {{ .cmake_dirname }} --target {{ .app_name }}
 
   conda:
     desc: Setup conda environment
@@ -34,7 +36,7 @@ tasks:
 
   run:
     desc: Run executable
-    cmd: ./data/{{ .app_name }}
+    cmd: ./{{ .cmake_dirname }}/{{ .app_name }}
 
   train:
     desc: Train MNIST model and convert to some file that can be read in the C program
