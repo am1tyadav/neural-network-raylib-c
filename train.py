@@ -1,6 +1,20 @@
 import keras
 import numpy as np
+from numpy.typing import NDArray
 from pprint import pprint
+
+
+def convert_to_ctensor(array: NDArray, filepath: str):
+    """
+    Convert numpy array to.ctensor file
+    """
+    with open(filepath, "w") as f:
+        f.write(f"{len(array.shape)}\n")
+        f.write(" ".join([str(dim) for dim in array.shape]))
+        f.write(f"\n{array.size}\n")
+
+        for value in array.flatten():
+            f.write(f"{value}\n")
 
 
 def train():
@@ -43,13 +57,9 @@ def train():
             print(f"Exporting layer: {layer.name}")
             weights = layer.get_weights()
 
-            for weight in weights:
-                if len(weight.shape) == 2:
-                    print(f"Exporting weight: {weight.shape}")
-                    np.savetxt(f"./data/{layer.name}.weight", weight)
-                else:
-                    print(f"Exporting bias: {weight.shape}")
-                    np.savetxt(f"./data/{layer.name}.bias", weight)
+            for i, weight in enumerate(weights):
+                print(f"Exporting weight: {weight.shape}")
+                convert_to_ctensor(weight, f"./data/{layer.name}_{i}.ctensor")
 
 
 if __name__ == "__main__":
