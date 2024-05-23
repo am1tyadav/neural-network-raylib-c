@@ -25,7 +25,8 @@ def train():
 
     model = keras.Sequential(
         [
-            keras.layers.Flatten(input_shape=(28, 28), name="model_input"),
+            keras.layers.Input(shape=(28, 28), name="model_input"),
+            keras.layers.Flatten(),
             keras.layers.Dense(64, activation="relu", name="export_dense_1"),
             keras.layers.Dense(10, activation="linear", name="export_dense_2"),
             keras.layers.Softmax(name="model_output"),
@@ -37,7 +38,7 @@ def train():
     )
 
     _ = model.fit(
-        x_train, y_train, validation_data=(x_test, y_test), batch_size=64, epochs=5
+        x_train, y_train, validation_data=(x_test, y_test), batch_size=32, epochs=10
     )
 
     model_without_activation = keras.models.Model(
