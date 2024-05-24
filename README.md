@@ -1,8 +1,8 @@
-# MNIST in C
+# Neural Networks + Raylib + C
 
-## Neural Networks + Raylib
+A toy example app that lets you draw digits and predicts which number you drew using a neural network trained with TensorFlow. The inference code uses my other toy project [ctensor](https://github.com/am1tyadav/ctensor)
 
-MNIST Inference in pure C: A toy example app that lets you draw digits and predicts which number you drew using a neural network trained with TensorFlow. The inference code uses my other toy project [ctensor](https://github.com/am1tyadav/ctensor)
+The dataset used for training is the popular MNIST dataset
 
 ![NN in Raylib](./assets/mnist_raylib.gif)
 
