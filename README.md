@@ -4,6 +4,8 @@
 
 MNIST Inference in pure C: A toy example app that lets you draw digits and predicts which number you drew using a neural network trained with TensorFlow. The inference code uses my other toy project [ctensor](https://github.com/am1tyadav/ctensor)
 
+![NN in Raylib](./assets/mnist_raylib.gif)
+
 ## Dependencies
 
 - [Task](https://taskfile.dev) (Optional). If you don't want to use Task, you can see the list of raw commands in the [Taskfile](Taskfile.yml)
