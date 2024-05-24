@@ -54,3 +54,4 @@ dkms.conf
 data
 cmake-build
 .vscode
+.DS_Store

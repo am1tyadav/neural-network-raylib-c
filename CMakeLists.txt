@@ -4,6 +4,10 @@ project(mnist_example C)
 
 set(CMAKE_C_STANDARD 11)
 
+set(CMAKE_BUILD_TYPE Debug)
+
+set(BUILD_SHARED_LIBS OFF)
+
 include(CPM.cmake)
 
 CPMAddPackage(
