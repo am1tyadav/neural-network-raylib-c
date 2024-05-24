@@ -29,16 +29,10 @@ void predict(
     ctensor_tensor_t *a2 = ctensor_multiply(arena, o1, w2, 1, 0); // [1, 10]
     ctensor_tensor_t *t_b2 = ctensor_permute(arena, b2, (uint64_t[]) { 1, 0 }); // [1, 10]
     ctensor_tensor_t *z2 = ctensor_add(arena, a2, t_b2); // [1, 10]
+    ctensor_tensor_t *out = ctensor_softmax(arena, z2, 1);
 
-    float max_value = -10.0f;
-
-    for (uint64_t i = 0; i < z2->num_items; i++) {
-        if (z2->data[i] > max_value)
-            max_value = z2->data[i];
-    }
-
-    for (uint64_t i = 0; i < z2->num_items; i++) {
-        scores[i] = z2->data[i] / max_value;
+    for (uint64_t i = 0; i < out->num_items; i++) {
+        scores[i] = out->data[i];
     }
     
     ctensor_arena_destroy(arena);
@@ -107,7 +101,7 @@ void draw_everything(const uint8_t *inference_image, const float *scores)
         DrawText(label, 24 + 35 * i, 280 + SCREEN_W, 30, (Color){0, c, 0, 255});
     }
 
-    DrawFPS(360, 840);
+    // DrawFPS(360, 840);
     EndDrawing();
 }
 
